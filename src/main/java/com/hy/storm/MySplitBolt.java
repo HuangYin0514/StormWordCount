@@ -37,7 +37,7 @@ public class MySplitBolt extends BaseRichBolt {
     @Override
     public void execute(Tuple input) {
         //这里是根据输出的位置进行获取的
-        String line = input.getString(1);
+        String line = input.getString(0);
         String[] arrWords = line.split(" ");
         for (String word : arrWords) {
             collector.emit(new Values(word, 1));

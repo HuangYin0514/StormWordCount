@@ -29,13 +29,14 @@ public class MyCountBolt extends BaseRichBolt {
     public void execute(Tuple input) {
         String word = input.getString(0);
         Integer num = input.getInteger(1);
+        System.out.println(Thread.currentThread().getId() + "word:" + word);
         if (map.containsKey(word)) {
             Integer count = map.get(word);
             map.put(word, count + num);
         } else {
             map.put(word, num);
         }
-        System.out.println(map);
+//        System.out.println(map);
 
     }
 
