@@ -33,9 +33,6 @@ public class MyCountBolt extends BaseRichBolt {
         } else {
             map.put(word, num);
         }
-        if (map.size() > 1) {
-            System.out.println(map);
-        }
         System.out.println(map);
 
     }
