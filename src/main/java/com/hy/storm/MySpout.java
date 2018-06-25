@@ -25,6 +25,7 @@ public class MySpout extends BaseRichSpout {
      * @param context
      * @param collector
      */
+    @Override
     public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
         this.collector = collector;
     }
@@ -32,6 +33,7 @@ public class MySpout extends BaseRichSpout {
     /**
      * storm 框架在  while(true) 调用nextTuple方法
      */
+    @Override
     public void nextTuple() {
         collector.emit(new Values("i am lilei love hanmeimei","aa is bb cc ed fg"));
 
@@ -41,6 +43,7 @@ public class MySpout extends BaseRichSpout {
      * 标记
      * @param declarer
      */
+    @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         declarer.declare(new Fields("word","a"));
     }

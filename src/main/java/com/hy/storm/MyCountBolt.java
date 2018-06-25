@@ -20,10 +20,12 @@ public class MyCountBolt extends BaseRichBolt {
     Map<String, Integer> map = new HashMap<String, Integer>();
 
 
+    @Override
     public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
         this.collector = collector;
     }
 
+    @Override
     public void execute(Tuple input) {
         String word = input.getString(0);
         Integer num = input.getInteger(1);
@@ -37,6 +39,7 @@ public class MyCountBolt extends BaseRichBolt {
 
     }
 
+    @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         //不输出
     }

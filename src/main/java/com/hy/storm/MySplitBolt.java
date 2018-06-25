@@ -25,6 +25,7 @@ public class MySplitBolt extends BaseRichBolt {
      * @param context
      * @param collector
      */
+    @Override
     public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
         this.collector = collector;
     }
@@ -33,6 +34,7 @@ public class MySplitBolt extends BaseRichBolt {
      * 被Storm框架 while(True) 循环调用，传入参数
      * @param input
      */
+    @Override
     public void execute(Tuple input) {
         //这里是根据输出的位置进行获取的
         String line = input.getString(1);
@@ -42,6 +44,7 @@ public class MySplitBolt extends BaseRichBolt {
         }
     }
 
+    @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         declarer.declare(new Fields("word", "num"));
 
