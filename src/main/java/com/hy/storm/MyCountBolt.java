@@ -1,0 +1,46 @@
+package com.hy.storm;
+
+import backtype.storm.task.OutputCollector;
+import backtype.storm.task.TopologyContext;
+import backtype.storm.topology.OutputFieldsDeclarer;
+import backtype.storm.topology.base.BaseRichBolt;
+import backtype.storm.tuple.Tuple;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created with IDEA by User1071324110@qq.com
+ *
+ * @author 10713
+ * @date 2018/6/25 11:59
+ */
+public class MyCountBolt extends BaseRichBolt {
+    OutputCollector collector;
+    Map<String, Integer> map = new HashMap<String, Integer>();
+
+
+    public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
+        this.collector = collector;
+    }
+
+    public void execute(Tuple input) {
+        String word = input.getString(0);
+        Integer num = input.getInteger(1);
+        if (map.containsKey(word)) {
+            Integer count = map.get(word);
+            map.put(word, count + num);
+        } else {
+            map.put(word, num);
+        }
+        if (map.size() > 1) {
+            System.out.println(map);
+        }
+        System.out.println(map);
+
+    }
+
+    public void declareOutputFields(OutputFieldsDeclarer declarer) {
+        //不输出
+    }
+}
