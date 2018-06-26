@@ -2,6 +2,9 @@ package com.hy.storm;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
+import backtype.storm.StormSubmitter;
+import backtype.storm.generated.AlreadyAliveException;
+import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.tuple.Fields;
 
@@ -12,7 +15,7 @@ import backtype.storm.tuple.Fields;
  * @date 2018/6/25 11:10
  */
 public class WordCountTopologyMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AlreadyAliveException, InvalidTopologyException {
         //1、准备一个TopologyBuilder
         TopologyBuilder topologyBuilder = new TopologyBuilder();
         topologyBuilder.setSpout("mySpout", new MySpout(), 2);
@@ -23,8 +26,8 @@ public class WordCountTopologyMain {
         Config config = new Config();
         config.setNumWorkers(2);
         //3、提交任务  -----两种模式 本地模式和集群模式
-        //StormSubmitter.submitTopology("mywordcount",config,topologyBuilder.createTopology());
-        LocalCluster localCluster = new LocalCluster();
-        localCluster.submitTopology("mywordcount", config, topologyBuilder.createTopology());
+        StormSubmitter.submitTopology("mywordcount",config,topologyBuilder.createTopology());
+//        LocalCluster localCluster = new LocalCluster();
+//        localCluster.submitTopology("mywordcount", config, topologyBuilder.createTopology());
     }
 }
