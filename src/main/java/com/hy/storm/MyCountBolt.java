@@ -4,10 +4,12 @@ import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
+import backtype.storm.tuple.MessageId;
 import backtype.storm.tuple.Tuple;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created with IDEA by User1071324110@qq.com
@@ -29,13 +31,14 @@ public class MyCountBolt extends BaseRichBolt {
     public void execute(Tuple input) {
         String word = input.getString(0);
         Integer num = input.getInteger(1);
-        System.out.println(Thread.currentThread().getId() + "word:" + word + "map:" + map);
+//        System.out.println(Thread.currentThread().getId() + "   word:" + word + "   map:" + map);
         if (map.containsKey(word)) {
             Integer count = map.get(word);
             map.put(word, count + num);
         } else {
             map.put(word, num);
         }
+        collector.ack(input);
 //        System.out.println(map);
     }
 

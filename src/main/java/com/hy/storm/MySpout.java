@@ -7,7 +7,9 @@ import backtype.storm.topology.base.BaseRichSpout;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created with IDEA by User1071324110@qq.com
@@ -17,6 +19,7 @@ import java.util.Map;
  */
 public class MySpout extends BaseRichSpout {
     SpoutOutputCollector collector;
+    private Map<String, Values> buffer = new HashMap<>();
 
     /**
      * 初始化方法
@@ -35,8 +38,10 @@ public class MySpout extends BaseRichSpout {
      */
     @Override
     public void nextTuple() {
-        collector.emit(new Values("i am lilei love hanmeimei","aa is bb cc ed fg"));
-
+        String messageId = UUID.randomUUID().toString().replace("-", "111111111111111")+"111111111111111";
+        Values tuple = new Values("i am lilei love hanmeimei", "aa is bb cc ed fg");
+        collector.emit(tuple, messageId);
+        buffer.put(messageId, tuple);
     }
 
     /**
@@ -46,5 +51,18 @@ public class MySpout extends BaseRichSpout {
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         declarer.declare(new Fields("word","a"));
+    }
+
+    @Override
+    public void ack(Object msgId) {
+        System.out.println("消息处理成功， ID =" + msgId);
+        buffer.remove(msgId);
+    }
+
+    @Override
+    public void fail(Object msgId) {
+        System.out.println("消息处理失败 id= " + msgId);
+//        Values tuple = buffer.get(msgId);
+//        collector.emit(tuple, msgId);
     }
 }

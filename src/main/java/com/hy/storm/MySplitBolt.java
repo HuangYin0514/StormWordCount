@@ -5,10 +5,12 @@ import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
+import backtype.storm.tuple.MessageId;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created with IDEA by User1071324110@qq.com
@@ -40,13 +42,15 @@ public class MySplitBolt extends BaseRichBolt {
         String line = input.getString(0);
         String[] arrWords = line.split(" ");
         for (String word : arrWords) {
-            collector.emit(new Values(word, 1));
+            collector.emit(input, new Values(word, 1));
         }
+        collector.ack(input);
     }
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         declarer.declare(new Fields("word", "num"));
-
     }
+
+
 }

@@ -26,8 +26,8 @@ public class WordCountTopologyMain {
         Config config = new Config();
         config.setNumWorkers(2);
         //3、提交任务  -----两种模式 本地模式和集群模式
-        StormSubmitter.submitTopology("mywordcount",config,topologyBuilder.createTopology());
-//        LocalCluster localCluster = new LocalCluster();
-//        localCluster.submitTopology("mywordcount", config, topologyBuilder.createTopology());
+//        StormSubmitter.submitTopology("mywordcount",config,topologyBuilder.createTopology());
+        LocalCluster localCluster = new LocalCluster();
+        localCluster.submitTopology("mywordcount", config, topologyBuilder.createTopology());
     }
 }
