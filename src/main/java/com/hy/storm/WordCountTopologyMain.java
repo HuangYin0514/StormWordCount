@@ -21,6 +21,9 @@ public class WordCountTopologyMain {
         topologyBuilder.setSpout("mySpout", new MySpout(), 2);
         topologyBuilder.setBolt("myBolt1", new MySplitBolt(), 2).shuffleGrouping("mySpout");
         topologyBuilder.setBolt("myBolt2", new MyCountBolt(), 4).setNumTasks(8).fieldsGrouping("myBolt1", new Fields("word"));
+        topologyBuilder.setBolt("myBolt3", new MyTestBolt(), 2).shuffleGrouping("myBolt2");
+        topologyBuilder.setBolt("myBolt4", new MyTestBolt2(), 2).shuffleGrouping("myBolt3");
+
 //        topologyBuilder.setBolt("myBolt2", new MyCountBolt(), 4).shuffleGrouping("myBolt1");
         //2、创建一个configuration，用来指定当前topology 需要的worker的数量
         Config config = new Config();
